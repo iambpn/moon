@@ -13,9 +13,6 @@ cacheable!(
         #[setting(default = true)]
         pub interweaved_task_inheritance: bool,
 
-        /// Enable support for `.pkl` configuration files.
-        pub pkl_configs: bool,
-
         /// Ensure that the a project alias is only used once. Duplicate
         /// aliases will trigger a hard failure.
         #[setting(default = true)]
