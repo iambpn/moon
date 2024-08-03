@@ -1,5 +1,3 @@
-// .moon/toolchain.yml
-
 use crate::language_platform::*;
 use crate::toolchain::*;
 use rustc_hash::FxHashMap;
