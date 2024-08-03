@@ -98,8 +98,6 @@ export interface ExperimentsConfig {
 	 * @deprecated
 	 */
 	interweavedTaskInheritance?: boolean;
-	/** Enable support for `.pkl` configuration files. */
-	pklConfigs: boolean;
 	/**
 	 * Ensure that the a project alias is only used once. Duplicate
 	 * aliases will trigger a hard failure.
@@ -402,8 +400,6 @@ export interface PartialExperimentsConfig {
 	 * @deprecated
 	 */
 	interweavedTaskInheritance?: boolean | null;
-	/** Enable support for `.pkl` configuration files. */
-	pklConfigs?: boolean | null;
 	/**
 	 * Ensure that the a project alias is only used once. Duplicate
 	 * aliases will trigger a hard failure.

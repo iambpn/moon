@@ -301,12 +301,6 @@
           "deprecated": true,
           "type": "boolean"
         },
-        "pklConfigs": {
-          "title": "pklConfigs",
-          "description": "Enable support for .pkl configuration files.",
-          "type": "boolean",
-          "markdownDescription": "Enable support for `.pkl` configuration files."
-        },
         "strictProjectAliases": {
           "title": "strictProjectAliases",
           "description": "Ensure that the a project alias is only used once. Duplicate aliases will trigger a hard failure.",
