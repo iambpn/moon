@@ -3077,6 +3077,7 @@ dependencies = [
  "moon_task",
  "moon_tool",
  "moon_toolchain",
+ "moon_toolchain_plugin",
  "moon_typescript_lang",
  "moon_vcs",
  "once_cell",
@@ -4067,6 +4068,7 @@ dependencies = [
  "moon_plugin",
  "proto_core",
  "rustc-hash 2.0.0",
+ "tokio",
  "tracing",
 ]
 
