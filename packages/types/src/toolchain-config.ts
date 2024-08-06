@@ -28,6 +28,7 @@ export interface BunConfig {
 	 * as dependencies.
 	 *
 	 * @default 'workspace'
+	 * @type {'file' | 'link' | 'star' | 'version' | 'version-caret' | 'version-tilde' | 'workspace' | 'workspace-caret' | 'workspace-tilde'}
 	 */
 	dependencyVersionFormat: NodeVersionFormat;
 	/** Automatically infer moon tasks from `package.json` scripts. */
@@ -189,6 +190,7 @@ export interface NodeConfig {
 	 * as dependencies.
 	 *
 	 * @default 'workspace'
+	 * @type {'file' | 'link' | 'star' | 'version' | 'version-caret' | 'version-tilde' | 'workspace' | 'workspace-caret' | 'workspace-tilde'}
 	 */
 	dependencyVersionFormat: NodeVersionFormat;
 	/** Automatically infer moon tasks from `package.json` scripts. */
@@ -199,6 +201,7 @@ export interface NodeConfig {
 	 * The package manager to use for installing dependencies.
 	 *
 	 * @default 'npm'
+	 * @type {'bun' | 'npm' | 'pnpm' | 'yarn'}
 	 */
 	packageManager: NodePackageManager;
 	/** Location of the WASM plugin to use for Node.js support. */
@@ -260,6 +263,16 @@ export interface RustConfig {
 	 *
 	 * @envvar MOON_RUST_VERSION
 	 */
+	version: UnresolvedVersionSpec | null;
+}
+
+/** Configures an individual platform. */
+export interface ToolConfig {
+	/** Arbitrary configuration that'll be passed to the WASM plugin. */
+	config: Record<string, unknown>;
+	/** Location of the WASM plugin to use. */
+	plugin: PluginLocator | null;
+	/** The version to download, install, and run tasks with. */
 	version: UnresolvedVersionSpec | null;
 }
 
@@ -347,6 +360,8 @@ export interface ToolchainConfig {
 	node: NodeConfig | null;
 	/** Configures and enables the Rust platform. */
 	rust: RustConfig | null;
+	/** All configured toolchains by unique ID. */
+	toolchains: Record<string, ToolConfig>;
 	/** Configures and enables the TypeScript platform. */
 	typescript: TypeScriptConfig | null;
 }
@@ -590,6 +605,16 @@ export interface PartialRustConfig {
 	version?: UnresolvedVersionSpec | null;
 }
 
+/** Configures an individual platform. */
+export interface PartialToolConfig {
+	/** Arbitrary configuration that'll be passed to the WASM plugin. */
+	config?: Record<string, unknown> | null;
+	/** Location of the WASM plugin to use. */
+	plugin?: PluginLocator | null;
+	/** The version to download, install, and run tasks with. */
+	version?: UnresolvedVersionSpec | null;
+}
+
 /**
  * Configures and enables the TypeScript platform.
  * Docs: https://moonrepo.dev/docs/config/toolchain#typescript
@@ -674,6 +699,8 @@ export interface PartialToolchainConfig {
 	node?: PartialNodeConfig | null;
 	/** Configures and enables the Rust platform. */
 	rust?: PartialRustConfig | null;
+	/** All configured toolchains by unique ID. */
+	toolchains?: Record<string, PartialToolConfig> | null;
 	/** Configures and enables the TypeScript platform. */
 	typescript?: PartialTypeScriptConfig | null;
 }
