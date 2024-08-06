@@ -118,8 +118,8 @@ impl<T: Plugin> PluginRegistry<T> {
             .get_async(id)
             .await
             .ok_or_else(|| PluginError::UnknownId {
-                name: self.type_of.get_label().to_owned(),
-                id: id.to_owned(),
+                id: id.to_string(),
+                ty: self.type_of,
             })?;
 
         debug!(
@@ -136,8 +136,8 @@ impl<T: Plugin> PluginRegistry<T> {
         F: FnOnce(&T) -> miette::Result<R>,
     {
         let plugin = self.plugins.get(id).ok_or_else(|| PluginError::UnknownId {
-            name: self.type_of.get_label().to_owned(),
-            id: id.to_owned(),
+            id: id.to_string(),
+            ty: self.type_of,
         })?;
 
         debug!(
@@ -159,8 +159,8 @@ impl<T: Plugin> PluginRegistry<T> {
                 .get_async(id)
                 .await
                 .ok_or_else(|| PluginError::UnknownId {
-                    name: self.type_of.get_label().to_owned(),
-                    id: id.to_owned(),
+                    id: id.to_string(),
+                    ty: self.type_of,
                 })?;
 
         debug!(
@@ -177,8 +177,8 @@ impl<T: Plugin> PluginRegistry<T> {
         F: FnMut(&mut T, MoonContext) -> miette::Result<R>,
     {
         let mut plugin = self.plugins.get(id).ok_or_else(|| PluginError::UnknownId {
-            name: self.type_of.get_label().to_owned(),
-            id: id.to_owned(),
+            id: id.to_string(),
+            ty: self.type_of,
         })?;
 
         debug!(
@@ -198,12 +198,8 @@ impl<T: Plugin> PluginRegistry<T> {
     //     self.plugins.iter_mut()
     // }
 
-    pub async fn load<I, L>(&self, id: I, locator: L) -> miette::Result<()>
-    where
-        I: AsRef<Id> + Debug,
-        L: AsRef<PluginLocator> + Debug,
-    {
-        self.load_with_config(id, locator, |_| Ok(())).await
+    pub fn is_registered(&self, id: &Id) -> bool {
+        self.plugins.contains(id)
     }
 
     #[instrument(skip(self, op))]
@@ -222,8 +218,8 @@ impl<T: Plugin> PluginRegistry<T> {
 
         if self.plugins.contains(id) {
             return Err(PluginError::ExistingId {
-                name: self.type_of.get_label().to_owned(),
-                id: id.to_owned(),
+                id: id.to_string(),
+                ty: self.type_of,
             }
             .into());
         }
@@ -266,6 +262,14 @@ impl<T: Plugin> PluginRegistry<T> {
         );
 
         Ok(())
+    }
+
+    pub async fn load_without_config<I, L>(&self, id: I, locator: L) -> miette::Result<()>
+    where
+        I: AsRef<Id> + Debug,
+        L: AsRef<PluginLocator> + Debug,
+    {
+        self.load_with_config(id, locator, |_| Ok(())).await
     }
 
     pub fn register(&self, id: Id, plugin: T) {
