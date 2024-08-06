@@ -26,7 +26,7 @@ schematic = { workspace = true, features = [
 	"schema",
 	"type_indexmap",
 	"type_semver",
-	"url",
+	# "url",
 	"validate",
 	"validate_url",
 	"yaml",
